@@ -1,0 +1,12 @@
+# Netlify config (root) — enforce correct base and publish paths
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+
