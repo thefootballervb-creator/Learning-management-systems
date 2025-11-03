@@ -29,7 +29,7 @@ function Navbar(props) {
       <nav className="bg-white w-full flex flex-row justify-between items-center px-[4vw] shadow-[2px_2px_10px_rgba(0,0,0,0.15)] z-[999]">
         <div className="flex items-center justify-center">
           <Link to="/" className="flex items-center space-x-2 cursor-pointer">
-            <span className="text-2xl font-bold bg-gradient-to-r from-sky-500 to-sky-400 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold text-sky-500 hover:text-sky-600 transition-colors">
               LEARN HUB
             </span>
           </Link>
