@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: lms-backend
+    env: java
+    rootDir: backend
+    buildCommand: ./mvnw -DskipTests package
+    startCommand: java -jar target/Learning-Management-System-0.0.1-SNAPSHOT.jar
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: JAVA_VERSION
+        value: 21
+      - key: SPRING_PROFILES_ACTIVE
+        value: default
+    healthCheckPath: /actuator/health
+    headers:
+      - path: /*
+        name: Access-Control-Allow-Origin
+        value: "*"
+

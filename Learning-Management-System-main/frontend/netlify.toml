@@ -1,0 +1,24 @@
+## Netlify configuration for React SPA
+[build]
+  command = "npm run build"
+  publish = "build"
+
+## Ensure SPA routes work on refresh
+[[redirects]]
+  from = "/api/*"
+  to = "/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production.environment]
+  REACT_APP_API_BASE_URL = "https://YOUR_RENDER_BACKEND.onrender.com"
+
+[context.deploy-preview.environment]
+  REACT_APP_API_BASE_URL = "https://YOUR_RENDER_BACKEND.onrender.com"
+
+
