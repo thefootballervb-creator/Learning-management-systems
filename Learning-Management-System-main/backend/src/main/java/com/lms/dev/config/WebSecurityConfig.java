@@ -53,6 +53,8 @@ public class WebSecurityConfig {
                         // Public endpoints
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // Allow Render health checks without authentication
+                        .requestMatchers("/actuator/health").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/admin/init-courses").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/admin/reinit-courses").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/admin/update-video-links").permitAll()
