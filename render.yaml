@@ -2,30 +2,46 @@ services:
   - type: web
     name: lms-backend
     runtime: docker
-    rootDir: backend           # path where your Dockerfile is
+    rootDir: backend
     plan: free
     autoDeploy: true
 
-    # Optional health check if Spring Actuator is enabled
+    # If you have Actuator enabled
     healthCheckPath: /actuator/health
 
-    # If your Dockerfile exposes a port, Render will detect it.
-    # Otherwise, set it explicitly:
-    # envVars:
-    #   - key: PORT
-    #     value: 8080
-
+    # Environment variables your app needs to boot on Render
     envVars:
+      # Tell Spring which profile to use
       - key: SPRING_PROFILES_ACTIVE
         value: default
 
-      # ====== Database (uncomment and fill if using managed DB) ======
+      # Make Spring Boot bind to the port Render expects.
+      # Spring reads SERVER_PORT and uses it as server.port.
+      # Render injects PORT at runtime; this default makes it safe if PORT isn't available.
+      - key: SERVER_PORT
+        value: 8080
+      # Also declare PORT explicitly so Render knows what the container listens on.
+      - key: PORT
+        value: 8080
+
+      # ===== Database (REQUIRED for MySQL-backed app) =====
+      # Fill these in the Render Dashboard after the service is created,
+      # or commit real values here if you’re comfortable.
       # - key: SPRING_DATASOURCE_URL
       #   value: jdbc:mysql://<host>:<port>/<db>?useSSL=false&serverTimezone=UTC
       # - key: SPRING_DATASOURCE_USERNAME
       #   value: <username>
       # - key: SPRING_DATASOURCE_PASSWORD
       #   value: <password>
+      # - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+      #   value: com.mysql.cj.jdbc.Driver
+      # - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+      #   value: update
 
-      # ====== CORS (configure in your Spring app) ======
-      # Add allowed origins for your Netlify domain in Spring security/CORS config
+      # ===== Optional tuning =====
+      # - key: JAVA_TOOL_OPTIONS
+      #   value: -XX:MaxRAMPercentage=75.0
+
+    # Notes:
+    # - Your backend/Dockerfile should build and run the Spring Boot app (e.g., java -jar app.jar).
+    # - The app must listen on 8080 inside the container (as configured above).
