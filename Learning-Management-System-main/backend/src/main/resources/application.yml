@@ -33,3 +33,13 @@ logging:
   level:
     "[com.lms.dev]": ${APP_LOG_LEVEL:DEBUG}
     "[org.springframework.security]": ${SECURITY_LOG_LEVEL:DEBUG}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
