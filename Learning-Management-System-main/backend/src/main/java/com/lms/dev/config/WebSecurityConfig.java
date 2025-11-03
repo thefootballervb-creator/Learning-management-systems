@@ -86,10 +86,10 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Allow localhost for development and Netlify domains for production
-        configuration.setAllowedOrigins(List.of(
-            "http://localhost:3000", 
-            "http://127.0.0.1:3000",
-            "https://learnhub222.netlify.app",
+        // Use setAllowedOriginPatterns for wildcard support
+        configuration.setAllowedOriginPatterns(List.of(
+            "http://localhost:*", 
+            "http://127.0.0.1:*",
             "https://*.netlify.app"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
