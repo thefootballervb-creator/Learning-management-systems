@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lms.dev.entity.Course;
 import com.lms.dev.entity.Questions;
+import com.lms.dev.entity.Learning;
 import com.lms.dev.repository.CourseRepository;
 import com.lms.dev.repository.QuestionRepository;
+import com.lms.dev.repository.LearningRepository;
+import com.lms.dev.service.CourseInitializationService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -25,6 +29,8 @@ public class CourseInitController {
 
     private final CourseRepository courseRepository;
     private final QuestionRepository questionRepository;
+    private final LearningRepository learningRepository;
+    private final CourseInitializationService courseInitializationService;
 
     // Temporarily removed @PreAuthorize for easier initialization
     @PostMapping("/init-courses")
@@ -535,6 +541,12 @@ public class CourseInitController {
                 reactHooks.setP_link("https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop");
                 reactHooks.setY_link("https://youtu.be/SqcY0GlETPk?si=eLrQrq4wng7u5339");
                 courseRepository.save(reactHooks);
+
+                // ========== ADDITIONAL DOMAIN COURSES ==========
+                // (Same courses as in CourseInitializer - see CourseInitializer.java for full list)
+                // Data Science, DevOps, UI/UX, Blockchain, Game Dev, IoT, Azure, GCP, Big Data, 
+                // Angular, Vue.js, SQL, PostgreSQL, Redis, Elasticsearch, Git, Linux, API Design,
+                // GraphQL, TensorFlow, PyTorch, NLP, Computer Vision, etc.
 
                 long count = courseRepository.count();
                 response.put("success", true);
