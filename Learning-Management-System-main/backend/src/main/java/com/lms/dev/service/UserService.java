@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lms.dev.entity.User;
+import com.lms.dev.enums.UserRole;
 import com.lms.dev.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -35,7 +38,27 @@ public class UserService {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
+        
+        // Security: Prevent ADMIN role assignment during registration
+        // Only system can create ADMIN users (via initializers)
+        if (user.getRole() == UserRole.ADMIN) {
+            log.warn("Attempt to register as ADMIN denied. Setting role to USER for email: {}", user.getEmail());
+            user.setRole(UserRole.USER);
+        }
+        
+        // If role is null, default to USER
+        if (user.getRole() == null) {
+            user.setRole(UserRole.USER);
+        }
+        
+        // Only allow USER and INSTRUCTOR roles during registration
+        if (user.getRole() != UserRole.USER && user.getRole() != UserRole.INSTRUCTOR) {
+            log.warn("Invalid role specified during registration. Setting role to USER for email: {}", user.getEmail());
+            user.setRole(UserRole.USER);
+        }
+        
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        log.info("Creating user with role: {} for email: {}", user.getRole(), user.getEmail());
         return userRepository.save(user);
     }
 

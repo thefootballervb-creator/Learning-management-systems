@@ -136,6 +136,10 @@ function isAdminAuthenticated() {
   return !!localStorage.getItem("token") && localStorage.getItem("role") === "ROLE_ADMIN";
 }
 
+function isInstructorAuthenticated() {
+  return !!localStorage.getItem("token") && localStorage.getItem("role") === "ROLE_INSTRUCTOR";
+}
+
 function isUserAuthenticated(){
   return !!localStorage.getItem("token") && localStorage.getItem("role") === "ROLE_USER";
 }
@@ -161,6 +165,7 @@ export const authService = {
   getUserDetails,
   logout,
   isAdminAuthenticated,
+  isInstructorAuthenticated,
   isUserAuthenticated,
   getCurrentUser,
   getAuthHeader,

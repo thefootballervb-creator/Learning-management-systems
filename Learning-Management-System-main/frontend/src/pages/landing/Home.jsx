@@ -115,19 +115,41 @@ function Home() {
           <p className="text-gray-200 max-w-2xl mx-auto text-lg md:text-xl animate-fadeInUp delay-200">
             Unlock your potential with hundreds of courses, certifications, and skills to grow your career.
           </p>
-          <div className="mt-8 flex justify-center gap-4 animate-fadeInUp delay-400">
-            <button
-              onClick={() => navigate("/courses")}
-              className="px-6 py-3 rounded-xl bg-sky-500 text-white font-semibold hover:bg-sky-600 transition shadow-lg hover:shadow-xl"
-            >
-              Explore Courses
-            </button>
-            <a
-              href="#features"
-              className="px-6 py-3 rounded-xl bg-white text-sky-500 font-semibold hover:bg-sky-50 transition shadow-md hover:shadow-lg"
-            >
-              Learn More
-            </a>
+          <div className="mt-8 flex flex-col items-center gap-4 animate-fadeInUp delay-400">
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => navigate("/courses")}
+                className="px-6 py-3 rounded-xl bg-sky-500 text-white font-semibold hover:bg-sky-600 transition shadow-lg hover:shadow-xl"
+              >
+                Explore Courses
+              </button>
+              <a
+                href="#features"
+                className="px-6 py-3 rounded-xl bg-white text-sky-500 font-semibold hover:bg-sky-50 transition shadow-md hover:shadow-lg"
+              >
+                Learn More
+              </a>
+            </div>
+            <div className="flex justify-center gap-3 mt-4">
+              <button
+                onClick={() => navigate("/login")}
+                className="px-4 py-2 rounded-lg bg-blue-500/80 backdrop-blur-sm text-white text-sm font-medium hover:bg-blue-600 transition shadow-md"
+              >
+                Student Login
+              </button>
+              <button
+                onClick={() => navigate("/instructor")}
+                className="px-4 py-2 rounded-lg bg-purple-500/80 backdrop-blur-sm text-white text-sm font-medium hover:bg-purple-600 transition shadow-md"
+              >
+                Instructor Login
+              </button>
+              <button
+                onClick={() => navigate("/admin")}
+                className="px-4 py-2 rounded-lg bg-red-500/80 backdrop-blur-sm text-white text-sm font-medium hover:bg-red-600 transition shadow-md"
+              >
+                Admin Login
+              </button>
+            </div>
           </div>
         </div>
       </section>

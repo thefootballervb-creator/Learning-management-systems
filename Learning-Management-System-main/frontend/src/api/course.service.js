@@ -2,10 +2,17 @@ import api from "./api";
 
 async function getAllCourses() {
   try {
-    const { data } = await api.get("/api/courses");
-    return { success: true, data };
+    const response = await api.get("/api/courses");
+    // Backend returns List<Course> directly, axios wraps it in response.data
+    const courses = Array.isArray(response.data) ? response.data : (response.data?.data || []);
+    return { success: true, data: courses };
   } catch (error) {
     console.error("Error fetching courses:", error);
+    // Don't show error for public endpoint - just return empty array
+    if (error.response?.status === 401 && error.config?.url?.includes('/api/courses')) {
+      console.log("Courses endpoint returned 401, but it's public - returning empty array");
+      return { success: true, data: [] };
+    }
     return { success: false, error: "Could not fetch courses" };
   }
 }

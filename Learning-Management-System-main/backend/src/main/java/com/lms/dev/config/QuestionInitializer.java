@@ -24,7 +24,13 @@ public class QuestionInitializer {
     public CommandLineRunner initializeQuestions() {
         return args -> {
             try {
-                List<Course> allCourses = courseRepository.findAll();
+                List<Course> allCourses;
+                try {
+                    allCourses = courseRepository.findAll();
+                } catch (Exception e) {
+                    log.warn("Could not fetch courses for question initialization. This may be due to database schema issues. Error: {}", e.getMessage());
+                    return; // Skip question initialization if we can't fetch courses
+                }
                 log.info("Found {} courses. Initializing questions for each course...", allCourses.size());
 
                 int totalQuestionsAdded = 0;

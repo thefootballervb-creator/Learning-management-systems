@@ -26,8 +26,12 @@ app:
   jwtExpirationMs: ${JWT_EXPIRATION:604800000}
   default-admin:
     username: ${ADMIN_USERNAME:admin}
-    password: ${ADMIN_PASSWORD:admin123}
+    password: ${ADMIN_PASSWORD:admin2468}
     email: ${ADMIN_EMAIL:admin@gmail.com}
+  default-instructor:
+    username: ${INSTRUCTOR_USERNAME:instructor}
+    password: ${INSTRUCTOR_PASSWORD:instructor2468}
+    email: ${INSTRUCTOR_EMAIL:instructor@gmail.com}
 
 logging:
   level:
@@ -43,3 +47,31 @@ management:
     health:
       enabled: true
       show-details: always
+
+# Storage Configuration
+# Options: s3, uploadcare, firebase
+# Default: uploadcare (doesn't require credentials for basic setup)
+storage:
+  provider: ${STORAGE_PROVIDER:uploadcare}
+
+# AWS S3 Configuration
+aws:
+  s3:
+    bucket-name: ${AWS_S3_BUCKET_NAME:your-bucket-name}
+    region: ${AWS_S3_REGION:us-east-1}
+    access-key: ${AWS_ACCESS_KEY:}
+    secret-key: ${AWS_SECRET_KEY:}
+    base-url: ${AWS_S3_BASE_URL:}
+
+# Uploadcare Configuration
+uploadcare:
+  public-key: ${UPLOADCARE_PUBLIC_KEY:}
+  secret-key: ${UPLOADCARE_SECRET_KEY:}
+
+# Firebase Storage Configuration
+firebase:
+  storage:
+    bucket-name: ${FIREBASE_STORAGE_BUCKET:}
+    base-url: ${FIREBASE_STORAGE_BASE_URL:}
+  credentials:
+    path: ${FIREBASE_CREDENTIALS_PATH:}

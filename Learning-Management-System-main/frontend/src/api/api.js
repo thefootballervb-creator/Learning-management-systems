@@ -11,9 +11,17 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Public endpoints that don't need authentication
+    const isPublicEndpoint = config.url?.includes('/api/courses') && config.method === 'get' ||
+                            config.url?.includes('/api/auth/') ||
+                            config.url?.includes('/actuator/health');
+    
+    // Only add auth header if not a public endpoint
+    if (!isPublicEndpoint) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
@@ -27,8 +35,20 @@ api.interceptors.response.use(
     const isOptionalResource = error.config?.url?.includes('/profile-image') || 
                                error.config?.url?.includes('/certificates/');
     
+    // Public endpoints that don't require authentication
+    const isPublicEndpoint = error.config?.url?.includes('/api/courses') ||
+                            error.config?.url?.includes('/api/auth/') ||
+                            error.config?.url?.includes('/actuator/health');
+    
     if (error.response?.status === 401) {
-      // Only redirect if user was previously logged in
+      // Don't redirect for public endpoints - they should work without auth
+      if (isPublicEndpoint) {
+        // For public endpoints, just log the error but don't redirect
+        console.log("Public endpoint returned 401, but continuing anyway:", error.config?.url);
+        return Promise.reject(error);
+      }
+      
+      // Only redirect if user was previously logged in and it's not a public endpoint
       const token = localStorage.getItem("token");
       if (token) {
         message.destroy()

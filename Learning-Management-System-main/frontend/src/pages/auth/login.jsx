@@ -30,6 +30,8 @@ function Login() {
           // Redirect based on user role
           if (result.user.role === "ROLE_ADMIN") {
             navigate("/admin");
+          } else if (result.user.role === "ROLE_INSTRUCTOR") {
+            navigate("/instructor");
           } else {
             navigate("/courses");
           }
@@ -62,6 +64,48 @@ function Login() {
           </div>
 
           <div className="bg-white shadow-2xl rounded-2xl p-8 border border-gray-100">
+            {/* Role Selection */}
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-700 mb-3">
+                Login As
+              </label>
+              <div className="grid grid-cols-3 gap-3">
+                <button
+                  type="button"
+                  onClick={() => navigate("/login")}
+                  className="px-4 py-3 rounded-lg border-2 border-blue-500 bg-blue-50 text-blue-700 font-medium hover:bg-blue-100 transition-all"
+                >
+                  Student
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate("/instructor")}
+                  className="px-4 py-3 rounded-lg border-2 border-purple-500 bg-purple-50 text-purple-700 font-medium hover:bg-purple-100 transition-all"
+                >
+                  Instructor
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate("/admin")}
+                  className="px-4 py-3 rounded-lg border-2 border-red-500 bg-red-50 text-red-700 font-medium hover:bg-red-100 transition-all"
+                >
+                  Admin
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-2 text-center">
+                Select your role or use the form below
+              </p>
+            </div>
+
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white text-gray-500">Or sign in with email</span>
+              </div>
+            </div>
+
             <form autoComplete="off" onSubmit={login} className="space-y-6">
               <InputField
                 id="email"

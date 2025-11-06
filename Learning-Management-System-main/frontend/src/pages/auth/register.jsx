@@ -21,6 +21,7 @@ function RegistrationForm() {
     profession: "",
     linkedin_url: "",
     github_url: "",
+    role: "USER", // Default role is USER (Student)
   });
 
   const handleChange = (e) => {
@@ -67,6 +68,50 @@ function RegistrationForm() {
 
           <div className="bg-white shadow-2xl rounded-2xl p-8 border border-gray-100">
             <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Role Selection */}
+              <div className="space-y-6 mb-6">
+                <h3 className="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">
+                  Account Type
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, role: "USER" })}
+                    className={`px-6 py-4 rounded-xl border-2 transition-all ${
+                      formData.role === "USER"
+                        ? "border-blue-500 bg-blue-50 text-blue-700 shadow-md"
+                        : "border-gray-300 bg-white text-gray-700 hover:border-blue-300"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center">
+                      <User className="h-6 w-6 mb-2" />
+                      <span className="font-semibold">Student</span>
+                      <span className="text-xs mt-1">Learn and grow</span>
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, role: "INSTRUCTOR" })}
+                    className={`px-6 py-4 rounded-xl border-2 transition-all ${
+                      formData.role === "INSTRUCTOR"
+                        ? "border-purple-500 bg-purple-50 text-purple-700 shadow-md"
+                        : "border-gray-300 bg-white text-gray-700 hover:border-purple-300"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center">
+                      <UserPlus className="h-6 w-6 mb-2" />
+                      <span className="font-semibold">Instructor</span>
+                      <span className="text-xs mt-1">Teach and share</span>
+                    </div>
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500 text-center">
+                  {formData.role === "USER" 
+                    ? "Join as a student to access courses and learn" 
+                    : "Join as an instructor to create and manage courses"}
+                </p>
+              </div>
+
               {/* Basic Information */}
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">

@@ -32,6 +32,14 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
+            String requestPath = request.getRequestURI();
+            
+            // Skip JWT processing for public endpoints
+            if (isPublicEndpoint(requestPath, request.getMethod())) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            
             String jwt = parseJwt(request);
 
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -49,6 +57,20 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+    
+    private boolean isPublicEndpoint(String path, String method) {
+        // Public endpoints that don't require JWT authentication
+        if (path.startsWith("/api/auth/")) return true;
+        if (path.equals("/actuator/health")) return true;
+        if (path.startsWith("/swagger-ui/") || path.startsWith("/v3/api-docs/")) return true;
+        if (path.equals("/api/admin/init-courses") && "POST".equals(method)) return true;
+        if (path.equals("/api/admin/reinit-courses") && "POST".equals(method)) return true;
+        if (path.equals("/api/admin/update-video-links") && "POST".equals(method)) return true;
+        if (path.equals("/api/admin/reinit-questions") && "POST".equals(method)) return true;
+        // Public GET endpoints for courses
+        if (path.startsWith("/api/courses") && "GET".equals(method)) return true;
+        return false;
     }
 
     private String parseJwt(HttpServletRequest request) {

@@ -60,12 +60,16 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/admin/update-video-links").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/admin/reinit-questions").permitAll()
 
-                        // Courses
+                        // Courses - allow GET for all, require auth for modifications
+                        .requestMatchers(HttpMethod.GET, "/api/courses").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/courses/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/courses/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/courses/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/courses/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/courses/**").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/courses/**").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/courses/**").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        
+                        // Instructor endpoints
+                        .requestMatchers("/api/instructor/**").hasRole("INSTRUCTOR")
 
                         // Assessments, Enrollments, Feedback, Learning, Progress
                         .requestMatchers("/api/assessments/**").hasAnyRole("USER", "ADMIN")

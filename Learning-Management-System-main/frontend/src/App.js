@@ -16,6 +16,7 @@ import Performance from './pages/profile/Performance';
 import certificate from './pages/assessment/certificate';
 import Forum from './pages/course/forum';
 import AdminDashboard from './pages/dashBoard/AdminDashboard';
+import InstructorDashboard from './pages/dashBoard/InstructorDashboard';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/addquestions/:id" element={<AddQuestions/>}/>
           <Route path='/admin' Component={AdminDashboard}></Route>
+          <Route path='/instructor' Component={InstructorDashboard}></Route>
           <Route path='/login' Component={Login}></Route>
           <Route path='/register' Component={Register}></Route>
           <Route path='/' Component={Home}></Route>

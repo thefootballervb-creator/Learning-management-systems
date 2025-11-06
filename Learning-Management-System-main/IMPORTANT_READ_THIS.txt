@@ -1,0 +1,86 @@
+================================================================================
+  HOW TO FIX "ERR_CONNECTION_REFUSED" - COMPLETE SOLUTION
+================================================================================
+
+PROBLEM:
+You're seeing "localhost refused to connect" because either:
+1. Frontend (port 3000) is not running
+2. Backend (port 8080) is not running
+3. Both are not running
+
+SOLUTION:
+
+STEP 1: Start Frontend
+-----------------------
+1. Open Command Prompt
+2. Navigate to:
+   cd C:\Users\balav\Downloads\Learning-Management-System-main\Learning-Management-System-main\frontend
+3. Run:
+   npm start
+4. Wait for: "webpack compiled successfully"
+5. Frontend will open at: http://localhost:3000
+6. KEEP THIS WINDOW OPEN
+
+STEP 2: Start Backend
+----------------------
+1. Open a NEW Command Prompt (keep frontend window open)
+2. Navigate to:
+   cd C:\Users\balav\Downloads\Learning-Management-System-main\Learning-Management-System-main\backend
+3. Run:
+   mvn spring-boot:run
+4. Wait for: "Started LearningManagementSystemApplication"
+5. This takes 30-60 seconds
+6. KEEP THIS WINDOW OPEN
+
+STEP 3: Verify Both Are Running
+-------------------------------
+1. Check Frontend:
+   Open: http://localhost:3000
+   Should see the website
+
+2. Check Backend:
+   Open: http://localhost:8080/actuator/health
+   Should see: {"status":"UP"}
+
+STEP 4: Refresh Login Page
+--------------------------
+1. Go to: http://localhost:3000/instructor
+2. Press F5 (refresh)
+3. Network error should be GONE!
+
+QUICK START (EASIEST METHOD):
+------------------------------
+I've started both services for you. Wait 30-60 seconds, then:
+
+1. Check Frontend: http://localhost:3000 (should work)
+2. Check Backend: http://localhost:8080/actuator/health (should show JSON)
+3. If both work, refresh your login page
+
+IMPORTANT:
+----------
+- Keep BOTH command windows OPEN
+- If you close them, services stop
+- Frontend window shows React compilation
+- Backend window shows Spring Boot startup
+- Both must stay running
+
+TROUBLESHOOTING:
+----------------
+If Frontend won't start:
+- Check Node.js is installed: node -v
+- Check npm is installed: npm -v
+- Install dependencies: npm install
+
+If Backend won't start:
+- Check Java is installed: java -version
+- Check JAVA_HOME is set (you already did this)
+- Check MySQL is running: netstat -ano | findstr :3306
+- Check port 8080 is free: netstat -ano | findstr :8080
+
+TEST CREDENTIALS:
+-----------------
+- Instructor: instructor@gmail.com / instructor2468
+- Admin: admin@gmail.com / admin2468
+
+================================================================================
+

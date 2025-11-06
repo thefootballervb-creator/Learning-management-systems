@@ -1,10 +1,11 @@
 import { Modal, Form, Input, InputNumber, message } from "antd";
 import { useState, useEffect } from "react";
 import { adminService } from "../../api/admin.service";
+import { instructorService } from "../../api/instructor.service";
 
 const { TextArea } = Input;
 
-function CourseModal({ isOpen, onClose, onSuccess, courseId = null, mode = "add" }) {
+function CourseModal({ isOpen, onClose, onSuccess, courseId = null, mode = "add", useInstructorService = false }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [fetchingData, setFetchingData] = useState(false);
@@ -26,7 +27,24 @@ function CourseModal({ isOpen, onClose, onSuccess, courseId = null, mode = "add"
   const fetchCourseData = async () => {
     setFetchingData(true);
     try {
-      const result = await adminService.getCourseById(courseId);
+      // For instructor, we need to get course from their courses list
+      let result;
+      if (useInstructorService) {
+        const coursesResult = await instructorService.getMyCourses();
+        if (coursesResult.success) {
+          const course = coursesResult.data.find(c => c.course_id === courseId);
+          if (course) {
+            result = { success: true, data: course };
+          } else {
+            result = { success: false, error: "Course not found" };
+          }
+        } else {
+          result = coursesResult;
+        }
+      } else {
+        result = await adminService.getCourseById(courseId);
+      }
+      
       if (result.success) {
         const formData = {
           course_name: result.data.course_name,
@@ -53,26 +71,27 @@ function CourseModal({ isOpen, onClose, onSuccess, courseId = null, mode = "add"
     setLoading(true);
     try {
       let result;
-      if (isEditMode) {
-        const editData = {
-          course_name: values.course_name,
-          instructor: values.instructor,
-          price: values.price,
-          description: values.description,
-          y_link: values.y_link,
-          p_link: values.p_link,
-        };
-        result = await adminService.updateCourse(courseId, editData);
+      const courseData = {
+        course_name: values.course_name,
+        instructor: values.instructor,
+        price: values.price,
+        description: values.description,
+        y_link: values.y_link,
+        p_link: values.p_link,
+      };
+      
+      if (useInstructorService) {
+        if (isEditMode) {
+          result = await instructorService.updateCourse(courseId, courseData);
+        } else {
+          result = await instructorService.createCourse(courseData);
+        }
       } else {
-        const addData = {
-          course_name: values.course_name,
-          instructor: values.instructor,
-          price: values.price,
-          description: values.description,
-          y_link: values.y_link,
-          p_link: values.p_link,
-        };
-        result = await adminService.createCourse(addData);
+        if (isEditMode) {
+          result = await adminService.updateCourse(courseId, courseData);
+        } else {
+          result = await adminService.createCourse(courseData);
+        }
       }
 
       if (result.success) {

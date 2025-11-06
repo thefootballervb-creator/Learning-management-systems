@@ -22,7 +22,16 @@ function Courses() {
     const fetchData = async () => {
       try {
         const coursesRes = await courseService.getAllCourses();
-        if (coursesRes.success) setCourses(coursesRes.data);
+        if (coursesRes.success) {
+          setCourses(coursesRes.data || []);
+          // Log for debugging
+          if (coursesRes.data && coursesRes.data.length === 0) {
+            console.log("No courses found in database. Courses may need to be initialized.");
+          }
+        } else {
+          console.error("Failed to fetch courses:", coursesRes.error);
+          setCourses([]); // Set empty array on error
+        }
 
         if (userId) {
           const enrollmentsRes = await learningService.getEnrollments(userId);
@@ -32,6 +41,7 @@ function Courses() {
         }
       } catch (err) {
         console.error("Error loading courses:", err);
+        setCourses([]); // Set empty array on error
       } finally {
         setLoading(false);
       }

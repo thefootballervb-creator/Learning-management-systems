@@ -42,9 +42,13 @@ function AdminDashboard() {
     }
   };
 
+  const handleLogout = async () => {
+    await authService.logout();
+  };
+
   return (
     <div className="flex min-h-screen">
-      <SideBar current={current} onSelect={setCurrent} />
+      <SideBar current={current} onSelect={setCurrent} onLogout={handleLogout} />
       <section className="flex-1 bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-100 transition-all duration-300">
         <main className="p-8 font-poppins">{renderContent()}</main>
       </section>

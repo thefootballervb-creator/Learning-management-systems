@@ -9,6 +9,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -26,7 +30,12 @@ public class Course {
 
     private int price;
 
-    private String instructor;
+    private String instructor; // Legacy field - kept for backward compatibility
+
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    @JsonIgnore
+    private User instructorUser; // New field - links to User entity
 
     private String description;
 
@@ -41,4 +50,23 @@ public class Course {
     @OneToMany(mappedBy = "course")
     @JsonIgnore
     private List<Questions> questions;
+    
+    @CreatedDate
+    @Column(name = "created_at", nullable = true, updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at", nullable = true)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }
