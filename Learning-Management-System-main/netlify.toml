@@ -1,7 +1,8 @@
 # Netlify config (root) — build from frontend directory
 [build]
-  command = "npm --prefix Learning-Management-System-main/frontend install && CI=false npm --prefix Learning-Management-System-main/frontend run build"
-  publish = "Learning-Management-System-main/frontend/build"
+  base = "frontend"
+  command = "npm install && npm run build"
+  publish = "build"
 
 # SPA redirects - all routes should go to index.html for React Router
 [[redirects]]
