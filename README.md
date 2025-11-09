@@ -17,13 +17,13 @@ A full-stack web application built using **Spring Boot** (backend) and **React.j
 
 ## Default Admin Credentials
 - Email: admin@gmail.com
-- Password: admin2468
+- Password: admin@098
 
 - Users can register, log in, view courses, take assessments, and receive certificates.
 
 ## Default Instructor Credentials
 - Email: Instructor@gmail.com
-- Password: Instructor2468
+- Password: Instructor@098
 
 ## ⚙️ Setup Instructions
 1. Clone the repository  
