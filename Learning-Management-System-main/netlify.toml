@@ -1,7 +1,6 @@
 [build]
-  base = "Learning-Management-System-main/frontend"
-  command = "npm run build"
-  publish = "build"
+  command = "npm install --prefix Learning-Management-System-main/frontend && npm run build --prefix Learning-Management-System-main/frontend"
+  publish = "Learning-Management-System-main/frontend/build"
 
 [[redirects]]
   from = "/*"
