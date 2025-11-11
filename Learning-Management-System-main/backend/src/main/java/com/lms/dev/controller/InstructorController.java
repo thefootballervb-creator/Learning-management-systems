@@ -23,17 +23,16 @@ import com.lms.dev.entity.User;
 import com.lms.dev.security.UserPrincipal;
 import com.lms.dev.service.InstructorService;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
 @RequestMapping("/api/instructor")
-@RequiredArgsConstructor
-@Slf4j
 @PreAuthorize("hasRole('INSTRUCTOR')")
 public class InstructorController {
 
     private final InstructorService instructorService;
+
+    public InstructorController(InstructorService instructorService) {
+        this.instructorService = instructorService;
+    }
 
     /**
      * Get all courses created by the logged-in instructor
