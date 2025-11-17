@@ -15,8 +15,16 @@ services:
         value: "8080"
 
       # Database configuration - MUST be set in Render dashboard after creating MySQL database
-      # Go to your MySQL database service in Render and copy the "Internal Database URL"
-      # Then add these environment variables in the web service settings:
-      # SPRING_DATASOURCE_URL: jdbc:mysql://<host>:<port>/<database>?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      # SPRING_DATASOURCE_USERNAME: <username>
-      # SPRING_DATASOURCE_PASSWORD: <password>
+      # 
+      # Steps to configure:
+      # 1. Create a MySQL database service in Render
+      # 2. Copy the "Internal Database URL" from your MySQL service
+      # 3. In this web service, go to Environment tab and add:
+      #    - SPRING_DATASOURCE_URL: jdbc:mysql://<host>:<port>/<database>?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      #    - SPRING_DATASOURCE_USERNAME: <username from MySQL service>
+      #    - SPRING_DATASOURCE_PASSWORD: <password from MySQL service>
+      #
+      # Example:
+      # SPRING_DATASOURCE_URL: jdbc:mysql://dbserver:3306/learning_management?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      # SPRING_DATASOURCE_USERNAME: dbuser
+      # SPRING_DATASOURCE_PASSWORD: dbpassword
